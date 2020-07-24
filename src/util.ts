@@ -1,50 +1,48 @@
-import fetch from 'node-fetch';
-const path = require('path');
+import fetch from "node-fetch";
+import path from 'path'
 
 export function resolveHome(filepath) {
-    if (filepath[0] === '~') {
-        return path.join(process.env.HOME, filepath.slice(1));
-    }
-    console.log(filepath)
-    return filepath;
+  if (filepath[0] === "~") {
+    return path.join(process.env.HOME, filepath.slice(1));
+  }
+  console.log(filepath);
+  return filepath;
 }
 
 function checkStatus(res) {
-    if (res.ok) { // res.status >= 200 && res.status < 300
-        return res;
-    } else {
-        throw "file not found";
-    }
+  if (res.ok) {
+    // res.status >= 200 && res.status < 300
+    return res;
+  } else {
+    throw "file not found";
+  }
 }
 
-export async function getJson(url):Promise<{}> {
+export async function getJson(url): Promise<{}> {
+  var data = await fetch(url, {
+    method: "GET",
+  });
 
-    var data = await fetch(url, { 
-        method: 'GET'
-    });
+  checkStatus(data);
 
-    checkStatus(data);
-
-    return data.json();
+  return data.json();
 }
 
-export async function getPbf(url):Promise<Uint8Array> {
+export async function getPbf(url): Promise<Uint8Array> {
+  var data = await fetch(url, {
+    method: "GET",
+  });
 
-    var data = await fetch(url, { 
-        method: 'GET'
-    });
+  checkStatus(data);
 
-    checkStatus(data);
-
-    return new Uint8Array(await data.buffer());
+  return new Uint8Array(await data.buffer());
 }
 
-
-export function rmse(values:number[]):number {
-    var sum = 0;
-    for(var value of values) {
-        sum = sum + Math.pow(value, 2);
-    }
-    var mean = sum / values.length;
-    return Math.sqrt(mean);
+export function rmse(values: number[]): number {
+  var sum = 0;
+  for (var value of values) {
+    sum = sum + Math.pow(value, 2);
+  }
+  var mean = sum / values.length;
+  return Math.sqrt(mean);
 }
