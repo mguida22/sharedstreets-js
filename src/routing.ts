@@ -69,7 +69,7 @@ export class PathSearch {
   findPath(start, end, endCoord: turfHelpers.Coord, min, max, options) {
     var results = [];
 
-    var stack = [];
+    var stack: PathStackFrame[] = [];
     var visitedNodes = {};
 
     stack.push(new PathStackFrame(this.graph, start, 0, visitedNodes, options));
@@ -104,7 +104,10 @@ export class PathSearch {
               path: path,
               length: currentStackFrame.getTotalEdgeCost(),
             });
-          } else continue; // path found but too short...
+          } else {
+            // path found but too short...
+            continue;
+          }
         } else {
           if (!currentStackFrame.isVisited(nextEdge.to)) {
             currentStackFrame = new PathStackFrame(

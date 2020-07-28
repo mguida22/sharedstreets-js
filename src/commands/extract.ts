@@ -73,7 +73,9 @@ export default class Extract extends Command {
 
     this.log(chalk.bold.keyword("green")("  🔍  Searching data..."));
 
-    if (flags.metadata) tileIndex.addTileType(TileType.METADATA);
+    if (flags.metadata) {
+      tileIndex.addTileType(TileType.METADATA);
+    }
 
     var data = await tileIndex.intersects(
       polygon,

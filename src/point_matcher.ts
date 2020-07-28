@@ -17,7 +17,7 @@ const DEFAULT_BEARING_TOLERANCE = 15; // 360 +/- tolerance
 
 // TODO need to pull this from PBF enum defintion
 
-// @property {number} Motorway=0 Motorway value
+//  * @property {number} Motorway=0 Motorway value
 //  * @property {number} Trunk=1 Trunk value
 //  * @property {number} Primary=2 Primary value
 //  * @property {number} Secondary=3 Secondary value
@@ -27,12 +27,12 @@ const DEFAULT_BEARING_TOLERANCE = 15; // 360 +/- tolerance
 //  * @property {number} Service=7 Service value
 //  * @property {number} Other=8 Other value
 
-function angleDelta(a1, a2) {
+function angleDelta(a1: number, a2: number) {
   var delta = 180 - Math.abs(Math.abs(a1 - a2) - 180);
   return delta;
 }
 
-function normalizeAngle(a) {
+function normalizeAngle(a: number) {
   if (a < 0) return a + 360;
   return a;
 }
@@ -48,12 +48,12 @@ export enum ReferenceSideOfStreet {
   UNKNOWN = "unknown",
 }
 
-interface SortableCanddate {
+interface SortableCandidate {
   score: number;
   calcScore(): number;
 }
 
-export class PointCandidate implements SortableCanddate {
+export class PointCandidate implements SortableCandidate {
   score: number;
 
   searchPoint: turfHelpers.Feature<turfHelpers.Point>;
@@ -203,7 +203,9 @@ export class PointMatcher {
 
       var i = pointOnLine.properties.index;
 
-      if (geometryFeature.geometry.coordinates.length <= i + 1) i = i - 1;
+      if (geometryFeature.geometry.coordinates.length <= i + 1) {
+        i = i - 1;
+      }
 
       var lineBearing = bearing(
         geometryFeature.geometry.coordinates[i],
@@ -226,10 +228,11 @@ export class PointMatcher {
       pointCandidate.direction = direction;
       pointCandidate.referenceLength = refLength;
 
-      if (direction === ReferenceDirection.FORWARD)
+      if (direction === ReferenceDirection.FORWARD) {
         pointCandidate.location = pointOnLine.properties.location;
-      else
+      } else {
         pointCandidate.location = refLength - pointOnLine.properties.location;
+      }
 
       pointCandidate.bearing = normalizeAngle(lineBearing);
       pointCandidate.interceptAngle = normalizeAngle(
@@ -244,8 +247,11 @@ export class PointMatcher {
         pointCandidate.sideOfStreet = ReferenceSideOfStreet.LEFT;
       }
 
-      if (geometry.backReferenceId) pointCandidate.oneway = false;
-      else pointCandidate.oneway = true;
+      if (geometry.backReferenceId) {
+        pointCandidate.oneway = false;
+      } else {
+        pointCandidate.oneway = true;
+      }
 
       // check bearing and add to candidate list
       if (
@@ -283,22 +289,27 @@ export class PointMatcher {
 
       var refLength = 0;
       for (var lr of reference.locationReferences) {
-        if (lr.distanceToNextRef)
+        if (lr.distanceToNextRef) {
           refLength = refLength + lr.distanceToNextRef / 100;
+        }
       }
 
       var interceptBearing = normalizeAngle(bearing(pointOnLine, searchPoint));
 
       var i = pointOnLine.properties.index;
 
-      if (candidateGeomFeature.geometry.coordinates.length <= i + 1) i = i - 1;
+      if (candidateGeomFeature.geometry.coordinates.length <= i + 1) {
+        i = i - 1;
+      }
 
       var lineBearing = bearing(
         candidateGeomFeature.geometry.coordinates[i],
         candidateGeomFeature.geometry.coordinates[i + 1]
       );
 
-      if (direction === ReferenceDirection.BACKWARD) lineBearing += 180;
+      if (direction === ReferenceDirection.BACKWARD) {
+        lineBearing += 180;
+      }
 
       lineBearing = normalizeAngle(lineBearing);
 
@@ -319,10 +330,11 @@ export class PointMatcher {
       pointCandidate.direction = direction;
       pointCandidate.referenceLength = refLength;
 
-      if (direction === ReferenceDirection.FORWARD)
+      if (direction === ReferenceDirection.FORWARD) {
         pointCandidate.location = pointOnLine.properties.location;
-      else
+      } else {
         pointCandidate.location = refLength - pointOnLine.properties.location;
+      }
 
       pointCandidate.bearing = normalizeAngle(lineBearing);
       pointCandidate.interceptAngle = normalizeAngle(
@@ -337,8 +349,11 @@ export class PointMatcher {
         pointCandidate.sideOfStreet = ReferenceSideOfStreet.LEFT;
       }
 
-      if (candidateGeom.backReferenceId) pointCandidate.oneway = false;
-      else pointCandidate.oneway = true;
+      if (candidateGeom.backReferenceId) {
+        pointCandidate.oneway = false;
+      } else {
+        pointCandidate.oneway = true;
+      }
 
       // check bearing and add to candidate list
       if (
@@ -380,7 +395,7 @@ export class PointMatcher {
           { units: "meters" }
         );
 
-        var forwardCandidate = await this.getPointCandidateFromGeom(
+        var forwardCandidate = this.getPointCandidateFromGeom(
           searchPoint,
           pointOnLine,
           candidateGeom,
@@ -388,7 +403,7 @@ export class PointMatcher {
           searchBearing,
           ReferenceDirection.FORWARD
         );
-        var backwardCandidate = await this.getPointCandidateFromGeom(
+        var backwardCandidate = this.getPointCandidateFromGeom(
           searchPoint,
           pointOnLine,
           candidateGeom,

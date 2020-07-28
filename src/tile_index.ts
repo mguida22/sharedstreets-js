@@ -27,7 +27,7 @@ import {
   TilePathGroup,
   TilePathParams,
 } from "./tiles";
-import { Graph, ReferenceSideOfStreet } from "./graph";
+import { ReferenceSideOfStreet } from "./graph";
 import { reverseLineString, bboxFromPolygon } from "./geom";
 import { featureCollection } from "@turf/helpers";
 
@@ -166,13 +166,6 @@ export class TileIndex {
     }
 
     this.tiles.add(tilePath.toPathString());
-  }
-
-  async getGraph(
-    _polygon: turfHelpers.Feature<turfHelpers.Polygon>,
-    _params: TilePathParams
-  ): Promise<Graph> {
-    return null;
   }
 
   async intersects(

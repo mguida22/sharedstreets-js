@@ -73,7 +73,7 @@ function getReferenceLength(ref: SharedStreetsReference) {
 
 const DEFAULT_BEARING_TOLERANCE = 15; // 360 +/- tolerance
 
-// TODO need to pull this from PBF enum defintion
+// TODO need to pull this from PBF enum definition
 
 // @property {number} Motorway=0 Motorway value
 //  * @property {number} Trunk=1 Trunk value
@@ -85,7 +85,7 @@ const DEFAULT_BEARING_TOLERANCE = 15; // 360 +/- tolerance
 //  * @property {number} Service=7 Service value
 //  * @property {number} Other=8 Other value
 
-function roadClassConverter(roadClass: string): number {
+function roadClassConverter(roadClass: string): number | null {
   if (roadClass === "Motorway") return 0;
   else if (roadClass === "Trunk") return 1;
   else if (roadClass === "Primary") return 2;
@@ -97,12 +97,12 @@ function roadClassConverter(roadClass: string): number {
   else return null;
 }
 
-function angleDelta(a1, a2) {
+function angleDelta(a1: number, a2: number) {
   var delta = 180 - Math.abs(Math.abs(a1 - a2) - 180);
   return delta;
 }
 
-function normalizeAngle(a) {
+function normalizeAngle(a: number) {
   if (a < 0) return a + 360;
   return a;
 }
@@ -119,12 +119,12 @@ export enum ReferenceSideOfStreet {
   UNKNOWN = "unknown",
 }
 
-interface SortableCanddate {
+interface SortableCandidate {
   score: number;
   calcScore(): number;
 }
 
-export class PointCandidate implements SortableCanddate {
+export class PointCandidate implements SortableCandidate {
   score: number;
 
   searchPoint: turfHelpers.Feature<turfHelpers.Point>;
@@ -374,7 +374,7 @@ export class LevelDB {
 export class Graph {
   id: string;
   db: LevelDB;
-  osrm;
+  osrm: OSRM;
   tilePathGroup: TilePathGroup;
   tileIndex: TileIndex;
   graphMode: GraphMode;
@@ -1250,14 +1250,18 @@ export class Graph {
 
       var i = pointOnLine.properties.index;
 
-      if (candidateGeomFeature.geometry.coordinates.length <= i + 1) i = i - 1;
+      if (candidateGeomFeature.geometry.coordinates.length <= i + 1) {
+        i = i - 1;
+      }
 
       var lineBearing = bearing(
         candidateGeomFeature.geometry.coordinates[i],
         candidateGeomFeature.geometry.coordinates[i + 1]
       );
 
-      if (direction === ReferenceDirection.BACKWARD) lineBearing += 180;
+      if (direction === ReferenceDirection.BACKWARD) {
+        lineBearing += 180;
+      }
 
       lineBearing = normalizeAngle(lineBearing);
 
