@@ -464,12 +464,15 @@ test("tiles -- build tile paths ", (t: any) => {
 
   // test path parsing
   var tilePath = new TilePath(pathString);
-  t.deepEqual(tilePath, {
-    tileId: "12-1171-1566",
-    tileType: "geometry",
-    source: "osm/planet-180430",
-    tileHierarchy: 6,
-  });
+  t.deepEqual(
+    JSON.stringify(tilePath),
+    JSON.stringify({
+      tileId: "12-1171-1566",
+      tileType: "geometry",
+      source: "osm/planet-180430",
+      tileHierarchy: 6,
+    })
+  );
 
   // test path string builder
   var pathString2 = tilePath.toPathString();
@@ -477,24 +480,27 @@ test("tiles -- build tile paths ", (t: any) => {
 
   // test path group
   var pathGroup = new TilePathGroup([tilePath]);
-  t.deepEqual(pathGroup, {
-    source: "osm/planet-180430",
-    tileHierarchy: 6,
-    tileTypes: ["geometry"],
-    tileIds: ["12-1171-1566"],
-  });
+  t.deepEqual(
+    JSON.stringify(pathGroup),
+    JSON.stringify({
+      tileIds: ["12-1171-1566"],
+      tileTypes: ["geometry"],
+      source: "osm/planet-180430",
+      tileHierarchy: 6,
+    })
+  );
 
   // test path gruop eumeration
   t.deepEqual(
-    [...pathGroup],
-    [
+    JSON.stringify([...pathGroup]),
+    JSON.stringify([
       {
         source: "osm/planet-180430",
         tileHierarchy: 6,
-        tileType: "geometry",
         tileId: "12-1171-1566",
+        tileType: "geometry",
       },
-    ]
+    ])
   );
 
   t.end();

@@ -4,13 +4,12 @@ import * as turfHelpers from "@turf/helpers";
 import bbox from "@turf/bbox";
 import destination from "@turf/destination";
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from "fs";
+import chalk from "chalk";
+import path from "path";
+import SphericalMercator from "@mapbox/sphericalmercator";
 
 import { getJson, getPbf, resolveHome } from "./util";
 
-const chalk = require("chalk");
-const path = require("path");
-
-const SphericalMercator = require("@mapbox/sphericalmercator");
 const sphericalMercator = new SphericalMercator({
   size: 256,
 });
