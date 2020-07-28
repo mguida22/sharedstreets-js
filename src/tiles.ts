@@ -110,7 +110,7 @@ export function getTileIdsForBounds(
   return tileIds;
 }
 
-export async function getTile(tilePath: TilePath): Promise<any[]> {
+export async function getTile(tilePath: TilePath) {
   // TODO use generator/yield pattern + protobuf decodeDelimited
 
   var arrayBuffer: Uint8Array;
@@ -138,17 +138,13 @@ export async function getTile(tilePath: TilePath): Promise<any[]> {
 
   if (arrayBuffer) {
     if (tilePath.tileType === TileType.GEOMETRY) {
-      var geometries: any[] = sharedstreetsPbf.geometry(arrayBuffer);
-      return geometries;
+      return sharedstreetsPbf.geometry(arrayBuffer);
     } else if (tilePath.tileType === TileType.INTERSECTION) {
-      var intersections: any[] = sharedstreetsPbf.intersection(arrayBuffer);
-      return intersections;
+      return sharedstreetsPbf.intersection(arrayBuffer);
     } else if (tilePath.tileType === TileType.REFERENCE) {
-      var references: any[] = sharedstreetsPbf.reference(arrayBuffer);
-      return references;
+      return sharedstreetsPbf.reference(arrayBuffer);
     } else if (tilePath.tileType === TileType.METADATA) {
-      var metadata: any[] = sharedstreetsPbf.metadata(arrayBuffer);
-      return metadata;
+      return sharedstreetsPbf.metadata(arrayBuffer);
     }
   }
 }
