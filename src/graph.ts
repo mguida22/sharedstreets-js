@@ -21,7 +21,7 @@ import { rmse, resolveHome } from "./util";
 
 import OSRM from "osrm";
 import xml from "xml";
-import levelup from "levelup";
+import levelup, { LevelUp } from "levelup";
 import leveldown from "leveldown";
 import chalk from "chalk";
 import path from "path";
@@ -342,7 +342,7 @@ export class PathCandidate {
 }
 
 export class LevelDB {
-  db;
+  db: LevelUp;
 
   constructor(directory) {
     this.db = levelup(leveldown(directory));
@@ -368,6 +368,10 @@ export class LevelDB {
     } catch (error) {
       return null;
     }
+  }
+
+  async close() {
+    return await this.db.close();
   }
 }
 
@@ -598,6 +602,14 @@ export class Graph {
     //xmlStream.end();
 
     return writeFinished;
+  }
+
+  /** closes the LevelDB connection, which removes the lock so that others
+   * can now connect to the same file. */
+  async cleanup() {
+    if (!this.db) return;
+
+    return await this.db.close();
   }
 
   async buildGraph() {

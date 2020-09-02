@@ -1489,7 +1489,7 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/leveldown@^4.0.0":
+"@types/leveldown@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@types/leveldown/-/leveldown-4.0.2.tgz#edb44a33668ae58656721bb1852345e6a2f2e42a"
   integrity sha512-VW6QbUnPb5yLbUBcXEh93lFNphyxkBul7Ae41OCgROd76WfLM3qzAbuzErx1LtsTqwcNlbavTr9rWXHCiGVF8A==
@@ -1497,10 +1497,10 @@
     "@types/abstract-leveldown" "*"
     "@types/node" "*"
 
-"@types/levelup@^3.1.0":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@types/levelup/-/levelup-3.1.1.tgz#f7cc08f248f14cb6c92914e91bceb8761020e8f0"
-  integrity sha512-LjvlfctJYj23Xuqq3jCT8ZPSUSSgDcRJg8+XFDBasoYzefFbB4cHzlDmBVjc2rBOYvklpYHJRayD0jBsbJLD9w==
+"@types/levelup@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@types/levelup/-/levelup-4.3.0.tgz#4f55585e05a33caa08c1439c344bbba93e947327"
+  integrity sha512-h82BoajhjU/zwLoM4BUBX/SCodCFi1ae/ZlFOYh5Z4GbHeaXj9H709fF1LYl/StrK8KSwnJOeMRPo9lnC6sz4w==
   dependencies:
     "@types/abstract-leveldown" "*"
     "@types/node" "*"
